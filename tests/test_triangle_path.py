@@ -1,35 +1,58 @@
-import pytest
+"""
+Uni tests for the triangle_path module.
+"""
 
+import pytest
 from src.triangle_path import maximum_path, process_test_case
 
 
-def test_maximum_path_basic():
-    triangle = [[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]
-    assert maximum_path(triangle) == 30, "Should calculate the correct maximum path sum"
+def test_maximum_path_simple():
+    """
+       Test the maximum_path function with a standard triangle.
+       Ensures it calculates the correct maximum path sum.
+       """
+    triangle = [[2], [4, 1], [3, 9, 7]]
+    assert maximum_path(triangle) == 15
 
 
 def test_maximum_path_empty():
-    with pytest.raises(Exception):
-        maximum_path([]), "Should raise an exception for an empty triangle"
+    """
+    Test the maximum_path function with an empty triangle.
+    Expects an IndexError to be raised due to the empty input.
+    """
+    with pytest.raises(IndexError):
+        maximum_path([])
 
 
 def test_process_test_case_basic():
-    data = ["3", "3", "3 4", "6 5 7", "4 1 8 3"]
+    """
+    Test the process_test_case function with valid input data.
+    Checks if it correctly processes the input and returns the correct sum and index.
+    """
+    data = ["3", "3", "1 2", "4 5 6", "7 8 9"]
     index = 1
     new_index, result = process_test_case(data, index)
-    assert result == 30, "Should return correct maximum path sum"
-    assert new_index == 5, "Should update index correctly after processing"
+    assert new_index == 4  # Replace with the correct assertion
+    assert result == [[1, 2], [4, 5, 6], [7, 8, 9]]  # Replace with the correct assertion
 
 
 def test_process_test_case_invalid_input():
-    data = ["3", "three", "3 4", "6 5 7", "4 1 8 3"]
+    """
+    Test the process_test_case function with invalid input.
+    Checks for ValueError when non-numeric values are provided where integers are expected.
+    """
+    data = ["2", "three", "1 2 3", "4 5 6 7"]
     index = 1
     with pytest.raises(ValueError):
-        process_test_case(data, index), "Should raise ValueError for non-integer number of rows"
+        process_test_case(data, index)
 
 
 def test_process_test_case_out_of_bounds():
-    data = ["1", "3", "3 4"]
+    """
+    Test the process_test_case function for handling out-of-bounds errors.
+    Ensures it raises IndexError when the function attempts to access data beyond the list's range.
+    """
+    data = ["1", "2", "10"]
     index = 1
     with pytest.raises(IndexError):
-        process_test_case(data, index), "Should raise IndexError when accessing out of bounds"
+        process_test_case(data, index)

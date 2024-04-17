@@ -1,3 +1,8 @@
+"""
+This module provides functions to calculate the maximum path sum in a triangle
+and to process test cases involving such triangles.
+"""
+
 import logging
 
 
@@ -18,10 +23,10 @@ def maximum_path(triangle):
         for row in range(len(triangle) - 2, -1, -1):
             for col in range(len(triangle[row])):
                 triangle[row][col] += max(triangle[row + 1][col], triangle[row + 1][col + 1])
-                logging.debug(f"After updating, row {row} col {col}: {triangle[row][col]}")
+                logging.debug("After updating, row %s col %s: %s", row, col, triangle[row][col])
         return triangle[0][0]
     except Exception as e:
-        logging.error("Failed to compute maximum path: {}".format(e))
+        logging.error("Failed to compute maximum path: %s", e)
         raise
 
 
@@ -42,23 +47,25 @@ def process_test_case(data, index):
         Exception: If an unexpected error occurs during processing.
     """
     try:
-        num_rows = int(data[index])
-        index += 1
+        num_rows = int(data[index])  # Retrieve the number of rows in the triangle
+        index += 1  # Move index to the first row of the triangle
         triangle = []
 
         for _ in range(num_rows):
+            if index >= len(data):  # Check if the index is out of range
+                raise IndexError("Data index out of range while processing rows.")
             row = list(map(int, data[index].split()))
-            index += 1
             triangle.append(row)
+            index += 1  # Increment index after processing each row
 
         result = maximum_path(triangle)
         return index, result
     except ValueError as e:
-        logging.error("Invalid input: {}".format(e))
+        logging.error("Invalid input: %s", e)
         raise
     except IndexError as e:
-        logging.error("Data indexing error: {}".format(e))
+        logging.error("Data indexing error: %s", e)
         raise
     except Exception as e:
-        logging.error("Unexpected error: {}".format(e))
+        logging.error("Unexpected error: %s", e)
         raise
