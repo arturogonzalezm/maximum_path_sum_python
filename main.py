@@ -15,12 +15,10 @@ def main():
     Main function to read triangle data from a file, process it and print maximum path sums.
     """
     try:
-        with open('data/input00.txt', 'r', encoding='utf-8') as file:  # Specify encoding
+        with open('data/input00.txt', 'r') as file:
             data = file.read().splitlines()
 
-        index = 0
-        num_cases = int(data[index])  # even though unused, ensures the format is correct
-        index += 1
+        index = 1  # Start directly from the first relevant data entry if num_cases isn't used
         results = []
 
         while index < len(data):
