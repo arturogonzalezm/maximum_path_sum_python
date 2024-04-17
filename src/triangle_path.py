@@ -22,8 +22,8 @@ def maximum_path(triangle):
     try:
         for row in range(len(triangle) - 2, -1, -1):
             for col in range(len(triangle[row])):
-                triangle[row][col] += max(triangle[row + 1][col], triangle[row + 1][col + 1])
-                logging.debug("After updating, row %s col %s: %s", row, col, triangle[row][col])
+                if col < len(triangle[row + 1]) - 1:  # Ensure col + 1 exists in the next row
+                    triangle[row][col] += max(triangle[row + 1][col], triangle[row + 1][col + 1])
         return triangle[0][0]
     except Exception as e:
         logging.error("Failed to compute maximum path: %s", e)
